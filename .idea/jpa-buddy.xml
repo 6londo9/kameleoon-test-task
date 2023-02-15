@@ -3,5 +3,13 @@
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
+    <option name="sourceModelValue" value="Default" />
+    <option name="targetDbValue" value="cf9e33ca-eaea-4d46-93c8-442f566c15db" />
+    <option name="isSnapshotDb" value="false" />
+    <option name="snapshotModelValue" value="Default" />
+    <option name="updateChangeLogPath" value="src/main/resources/db/changelog/changelog-master.xml" />
+    <option name="updateDbConnectionName" value="cf9e33ca-eaea-4d46-93c8-442f566c15db" />
+    <option name="reverseEngineeringLastDbConnectionId" value="cf9e33ca-eaea-4d46-93c8-442f566c15db" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/kameleoon/task" />
   </component>
 </project>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+
+<section layout:fragment="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form action="/v1.0/quotes/create" method="post">
+          <div class="form-group mt-10">
+            <label for="inputText">Text Input</label>
+            <input type="text" class="form-control" id="inputText" name="content">
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

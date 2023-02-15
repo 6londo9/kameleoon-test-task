@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+
+<section layout:fragment="content">
+  <div class="container-fluid d-flex">
+    <div class="col-8" style="padding: 20px;">
+      <p class="h3 text-center">Random quote</p>
+      <div th:if="${randomQuote}" th:object="${randomQuote}">
+        <div class="card-deck">
+          <div class="card-body bg-light">
+            <blockquote class="blockquote">
+              <p class="mb-0" th:text="${randomQuote.content}"></p>
+            </blockquote>
+          </div>
+          <div class="card-footer d-flex justify-content-between bg-light">
+            <div class="d-flex">
+              <form method="post" th:action="@{/v1.0/quotes/{quoteId}/like(quoteId=${randomQuote.id})}">
+                <button type="submit" class="btn btn-success" name="like">
+                  <i class="fas fa-thumbs-up"></i> Like
+                </button>
+                <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="*{likeCount}"></span>
+              </form>
+              <form method="post" th:action="@{/v1.0/quotes/{quoteId}/dislike(quoteId=${randomQuote.id})}">
+                <button type="submit" class="btn btn-danger ml-3" name="dislike">
+                  <i class="fas fa-thumbs-down"></i> Dislike
+                </button>
+                <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="*{dislikeCount}"></span>
+              </form>
+            </div>
+            <p class="text-right m-0" th:text="'Posted by ' + *{user.username}"></p>
+          </div>
+        </div>
+      </div>
+      <p class="h3 text-center mt-3">Flop quotes</p>
+      <div th:if="${quotes}">
+        <div class="card-deck">
+          <div th:each="quote : ${quotes}" th:object="${quote}">
+            <div class="card-body bg-light">
+              <blockquote class="blockquote">
+                <p class="mb-0" th:text="${quote.content}"></p>
+              </blockquote>
+            </div>
+            <div class="card-footer d-flex justify-content-between bg-light">
+              <div class="d-flex">
+                <form method="post" th:action="@{/v1.0/quotes/{quoteId}/like(quoteId=${quote.id})}">
+                  <button type="submit" class="btn btn-success" name="like">
+                    <i class="fas fa-thumbs-up"></i> Like
+                  </button>
+                  <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="${quote.likeCount}"></span>
+                </form>
+                <form method="post" th:action="@{/v1.0/quotes/{quoteId}/dislike(quoteId=${quote.id})}">
+                  <button type="submit" class="btn btn-danger ml-3" name="dislike">
+                    <i class="fas fa-thumbs-down"></i> Dislike
+                  </button>
+                  <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="${quote.dislikeCount}"></span>
+                </form>
+              </div>
+              <p class="text-right m-0" th:text="'Posted by ' + *{user.username}"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:if="${user}" class="col-4" style="padding: 20px;">
+      <div class="card bg-light">
+        <div class="card-body text-center">
+          <h5 th:text="'Hello, ' + ${user.username} + '!'"></h5>
+          <p>
+            <img src="https://via.placeholder.com/100x100" alt="${user.imageUrl}" class="img-fluid rounded-circle mb-3">
+          </p>
+        </div>
+        <div class="card-body text-center bg-white m-3">
+          <p class="text-right mt-3" th:text="'Last votes: (' + ${#lists.size(lastVotes)} + ')'"></p>
+          <div th:each="vote : ${lastVotes}" th:object="${vote}">
+            <p class="text-right m-2">
+              <span class="d-inline-block text-truncate" style="max-width: 200px;" th:text="${vote.content}">
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:unless="${user}" class="col-4" style="padding: 20px;">
+      <div class="card bg-light">
+        <div class="card-body text-left">
+          <form method="post" action="/v1.0/auth/authenticate">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="username" class="form-control" id="username" name="username">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Login</button>
+            <p style="margin-top: 10px;">
+              <a href="/v1.0/auth/register">Create an account!</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
