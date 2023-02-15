@@ -64,3 +64,7 @@ openApi {
 testlogger {
 	showStandardStreams = true
 }
+
+task myWrapper(type: Wrapper) {
+	gradleVersion = '7.6'
+}
