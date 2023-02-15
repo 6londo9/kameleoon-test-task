@@ -65,6 +65,6 @@ testlogger {
 	showStandardStreams = true
 }
 
-task myWrapper(type: Wrapper) {
+wrapper {
 	gradleVersion = '7.6'
 }
