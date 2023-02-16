@@ -1,5 +1,7 @@
 package kameleoon.task.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import kameleoon.task.config.JwtService;
 import kameleoon.task.exception.QuoteNotFoundException;
@@ -35,11 +37,15 @@ public final class QuoteController {
     @Autowired
     private JwtService jwtService;
 
+    @Operation(summary = "Get page of quote creating")
+    @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/new")
     public ModelAndView getQuoteCreation() {
         return new ModelAndView("urls/quote/new.html");
     }
 
+    @Operation(summary = "Post quote")
+    @ApiResponse(responseCode = "302", description = "The quote was successfully created")
     @PostMapping("/create")
     public RedirectView getQuoteCreation(HttpServletRequest request,
                                          @CookieValue(value = "token") String token) {
@@ -49,13 +55,15 @@ public final class QuoteController {
 
         String content = request.getParameter("content");
         Quote quote = new Quote(content, user);
-        quoteService.createQuote(quote);
+        quoteService.save(quote);
 
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl("/v1.0/top");
         return redirectView;
     }
 
+    @Operation(summary = "Like the chosen quote")
+    @ApiResponse(responseCode = "204", description = "The like was successfully added")
     @PostMapping("/{quoteId}/like")
     public ResponseEntity<Void> likeQuote(@PathVariable("quoteId") Long quoteId,
                                           @CookieValue(value = "token") String token) {
@@ -70,21 +78,23 @@ public final class QuoteController {
 
         if (vote == null) {
             voteService.createVote(user, quote, VoteType.LIKE);
-            quote.setLikeCount(quoteService.getLikesCount(quoteId));
-            quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
 
         } else if (vote.getVoteType().equals(VoteType.LIKE)) {
             return ResponseEntity.noContent().build();
 
         } else {
             voteService.updateVote(user, quote, VoteType.LIKE);
-            quote.setLikeCount(quoteService.getLikesCount(quoteId));
-            quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
         }
 
+
+        quote.setLikeCount(quoteService.getLikesCount(quoteId));
+        quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
+        quoteService.save(quote);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Dislike the chosen quote")
+    @ApiResponse(responseCode = "204", description = "The dislike was successfully added")
     @PostMapping("/{quoteId}/dislike")
     public ResponseEntity<Void> dislikeQuote(@PathVariable("quoteId") Long quoteId,
                                           @CookieValue(value = "token") String token) {
@@ -98,18 +108,17 @@ public final class QuoteController {
         Vote vote = voteService.getVote(user, quote);
         if (vote == null) {
             voteService.createVote(user, quote, VoteType.DISLIKE);
-            quote.setLikeCount(quoteService.getLikesCount(quoteId));
-            quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
 
         } else if (vote.getVoteType().equals(VoteType.DISLIKE)) {
             return ResponseEntity.noContent().build();
 
         } else {
             voteService.updateVote(user, quote, VoteType.DISLIKE);
-            quote.setLikeCount(quoteService.getLikesCount(quoteId));
-            quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
         }
 
+        quote.setLikeCount(quoteService.getLikesCount(quoteId));
+        quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
+        quoteService.save(quote);
         return ResponseEntity.noContent().build();
     }
 

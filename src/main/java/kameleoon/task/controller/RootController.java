@@ -1,5 +1,8 @@
 package kameleoon.task.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import kameleoon.task.config.JwtService;
 import kameleoon.task.controller.util.ModelUtils;
 import kameleoon.task.model.Quote;
@@ -7,6 +10,8 @@ import kameleoon.task.service.QuoteService;
 import kameleoon.task.service.UserService;
 import kameleoon.task.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +36,16 @@ public final class RootController {
     @Autowired
     private VoteService voteService;
 
+    @Operation(summary = "Show user to the /v1.0/top page")
+    @ApiResponse(responseCode = "303", description = "Redirect user to the /v1.0/top page")
     @GetMapping("/")
-    public ModelAndView homePage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("urls/top.html");
-        return modelAndView;
+    public ResponseEntity<Void> homePage(HttpServletResponse response) {
+        response.setHeader("Location", "/v1.0/top");
+        return new ResponseEntity<>(HttpStatus.SEE_OTHER);
     }
 
+    @Operation(summary = "Show top-10 liked quotes")
+    @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/top")
     public ModelAndView topQuotes(@CookieValue(name = "token", required = false) String token) {
         String url = "urls/top.html";
@@ -52,6 +60,8 @@ public final class RootController {
         return modelAndView;
     }
 
+    @Operation(summary = "Show top-10 disliked quotes")
+    @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/flop")
     public ModelAndView flopQuotes(@CookieValue(name = "token", required = false) String token) {
         String url = "urls/flop.html";
@@ -66,6 +76,8 @@ public final class RootController {
         return modelAndView;
     }
 
+    @Operation(summary = "Show 10 last added quotes")
+    @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/last")
     public ModelAndView getLastQuote(@CookieValue(name = "token", required = false) String token) {
         String url = "urls/last.html";

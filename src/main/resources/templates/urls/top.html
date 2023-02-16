@@ -19,13 +19,13 @@
                 <button type="submit" class="btn btn-success" name="like">
                   <i class="fas fa-thumbs-up"></i> Like
                 </button>
-                <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="*{likeCount}"></span>
+                <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="${randomQuote.likeCount}"></span>
               </form>
               <form method="post" th:action="@{/v1.0/quotes/{quoteId}/dislike(quoteId=${randomQuote.id})}">
                 <button type="submit" class="btn btn-danger ml-3" name="dislike">
                   <i class="fas fa-thumbs-down"></i> Dislike
                 </button>
-                <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="*{dislikeCount}"></span>
+                <span class="badge badge-dark ml-1" style="color: rgb(8,8,8);" th:text="${randomQuote.dislikeCount}"></span>
               </form>
             </div>
             <p class="text-right m-0" th:text="'Posted by ' + *{user.username}"></p>
@@ -65,11 +65,11 @@
         <div class="card-body text-center">
           <h5 th:text="'Hello, ' + ${user.username} + '!'"></h5>
           <p>
-            <img src="https://via.placeholder.com/100x100" alt="${user.imageUrl}" class="img-fluid rounded-circle mb-3">
+            <img src="https://via.placeholder.com/100x100" alt="${user.imageUrl}" class="img-fluid rounded-circle mt-3">
           </p>
         </div>
         <div class="card-body text-center bg-white m-3">
-          <p class="text-right mt-3" th:text="'Last votes: (' + ${#lists.size(lastVotes)} + ')'"></p>
+          <p class="text-right mt-1" th:text="'Last votes: (' + ${#lists.size(lastVotes)} + ')'"></p>
           <div th:if="${lastVotes}" th:each="vote : ${lastVotes}" th:object="${vote}">
             <p class="text-right m-2">
               <span class="d-inline-block text-truncate" style="max-width: 200px;" th:text="${vote.content}">

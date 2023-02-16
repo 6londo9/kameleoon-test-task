@@ -1,5 +1,7 @@
 package kameleoon.task.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import kameleoon.task.config.JwtService;
 import kameleoon.task.model.Quote;
 import kameleoon.task.model.User;
@@ -29,6 +31,8 @@ public final class UserController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Operation(summary = "Show user profile")
+    @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/{id}")
     public ModelAndView getUser(@PathVariable String id,
                                 @CookieValue(name = "token", required = false) String token) {
@@ -68,6 +72,8 @@ public final class UserController {
         return modelAndView;
     }
 
+    @Operation(summary = "Update user information")
+    @ApiResponse(responseCode = "303", description = "The user information successfully updated")
     @PatchMapping("/{id}")
     public User updateUser(@PathVariable("id") String id,
                            @RequestBody User user) {
@@ -75,6 +81,8 @@ public final class UserController {
         return userService.updateUser(userId, user);
     }
 
+    @Operation(summary = "Delete user")
+    @ApiResponse(responseCode = "303", description = "The user successfully deleted")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") String id) {
         Long userId = Long.parseLong(id);

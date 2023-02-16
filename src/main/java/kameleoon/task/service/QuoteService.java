@@ -45,7 +45,7 @@ public final class QuoteService {
         return quoteRepository.findById(id);
     }
 
-    public Quote createQuote(Quote quote) {
+    public Quote save(Quote quote) {
         return quoteRepository.save(quote);
     }
 
