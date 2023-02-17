@@ -5,7 +5,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'com.adarshr.test-logger' version '3.0.0'
 	id 'com.github.ben-manes.versions' version '0.39.0'
-	id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
+	id 'org.springdoc.openapi-gradle-plugin' version '1.6.0'
 	id 'checkstyle'
 	id 'jacoco'
 }
@@ -39,11 +39,11 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
-//	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.2'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.3'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
@@ -58,7 +58,7 @@ tasks.named('test') {
 }
 
 openApi {
-	apiDocsUrl.set("http://localhost:5000/v1.0/api-docs")
+	apiDocsUrl.set("http://localhost:5000/v3/api-docs")
 }
 
 testlogger {

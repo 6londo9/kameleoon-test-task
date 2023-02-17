@@ -1,6 +1,7 @@
 package kameleoon.task.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import kameleoon.task.config.JwtService;
 import kameleoon.task.model.Quote;
@@ -34,8 +35,12 @@ public final class UserController {
     @Operation(summary = "Show user profile")
     @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/{id}")
-    public ModelAndView getUser(@PathVariable String id,
-                                @CookieValue(name = "token", required = false) String token) {
+    public ModelAndView getUser(
+            @Parameter(description = "Id of user to be found")
+            @PathVariable String id,
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(name = "token", required = false) String token
+    ) {
         ModelAndView modelAndView = new ModelAndView();
         Long userId = Long.parseLong(id);
 
@@ -75,8 +80,12 @@ public final class UserController {
     @Operation(summary = "Update user information")
     @ApiResponse(responseCode = "303", description = "The user information successfully updated")
     @PatchMapping("/{id}")
-    public User updateUser(@PathVariable("id") String id,
-                           @RequestBody User user) {
+    public User updateUser(
+            @Parameter(description = "Id of user to be updated")
+            @PathVariable("id") String id,
+            @Parameter(description = "New user data")
+            @RequestBody User user
+    ) {
         Long userId = Long.parseLong(id);
         return userService.updateUser(userId, user);
     }
@@ -84,7 +93,10 @@ public final class UserController {
     @Operation(summary = "Delete user")
     @ApiResponse(responseCode = "303", description = "The user successfully deleted")
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") String id) {
+    public void deleteUser(
+            @Parameter(description = "Id of user to be deleted")
+            @PathVariable("id") String id
+    ) {
         Long userId = Long.parseLong(id);
         userService.deleteUser(userId);
     }

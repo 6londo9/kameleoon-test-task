@@ -1,6 +1,7 @@
 package kameleoon.task.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import kameleoon.task.config.JwtService;
@@ -47,7 +48,10 @@ public final class RootController {
     @Operation(summary = "Show top-10 liked quotes")
     @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/top")
-    public ModelAndView topQuotes(@CookieValue(name = "token", required = false) String token) {
+    public ModelAndView topQuotes(
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(name = "token", required = false) String token
+    ) {
         String url = "urls/top.html";
         ModelUtils utils = new ModelUtils(token, url,
                 jwtService, userDetailsService,
@@ -63,7 +67,10 @@ public final class RootController {
     @Operation(summary = "Show top-10 disliked quotes")
     @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/flop")
-    public ModelAndView flopQuotes(@CookieValue(name = "token", required = false) String token) {
+    public ModelAndView flopQuotes(
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(name = "token", required = false) String token
+    ) {
         String url = "urls/flop.html";
         ModelUtils utils = new ModelUtils(token, url,
                 jwtService, userDetailsService,
@@ -79,7 +86,10 @@ public final class RootController {
     @Operation(summary = "Show 10 last added quotes")
     @ApiResponse(responseCode = "200", description = "The page successfully loaded")
     @GetMapping("/last")
-    public ModelAndView getLastQuote(@CookieValue(name = "token", required = false) String token) {
+    public ModelAndView getLastQuote(
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(name = "token", required = false) String token
+    ) {
         String url = "urls/last.html";
         ModelUtils utils = new ModelUtils(token, url,
                 jwtService, userDetailsService,

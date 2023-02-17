@@ -1,6 +1,7 @@
 package kameleoon.task.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import kameleoon.task.config.JwtService;
@@ -47,8 +48,11 @@ public final class QuoteController {
     @Operation(summary = "Post quote")
     @ApiResponse(responseCode = "302", description = "The quote was successfully created")
     @PostMapping("/create")
-    public RedirectView getQuoteCreation(HttpServletRequest request,
-                                         @CookieValue(value = "token") String token) {
+    public RedirectView getQuoteCreation(
+            HttpServletRequest request,
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(value = "token") String token
+    ) {
         String username = jwtService.exctractUsername(token);
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not authorized"));
@@ -65,8 +69,12 @@ public final class QuoteController {
     @Operation(summary = "Like the chosen quote")
     @ApiResponse(responseCode = "204", description = "The like was successfully added")
     @PostMapping("/{quoteId}/like")
-    public ResponseEntity<Void> likeQuote(@PathVariable("quoteId") Long quoteId,
-                                          @CookieValue(value = "token") String token) {
+    public ResponseEntity<Void> likeQuote(
+            @Parameter(description = "Id of quote to be disliked")
+            @PathVariable("quoteId") Long quoteId,
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(value = "token") String token
+    ) {
         String username = jwtService.exctractUsername(token);
 
         Quote quote = quoteService.findById(quoteId)
@@ -96,8 +104,12 @@ public final class QuoteController {
     @Operation(summary = "Dislike the chosen quote")
     @ApiResponse(responseCode = "204", description = "The dislike was successfully added")
     @PostMapping("/{quoteId}/dislike")
-    public ResponseEntity<Void> dislikeQuote(@PathVariable("quoteId") Long quoteId,
-                                          @CookieValue(value = "token") String token) {
+    public ResponseEntity<Void> dislikeQuote(
+            @Parameter(description = "Id of quote to be disliked")
+            @PathVariable("quoteId") Long quoteId,
+            @Parameter(description = "JWT token as cookie")
+            @CookieValue(value = "token") String token
+    ) {
         String username = jwtService.exctractUsername(token);
 
         Quote quote = quoteService.findById(quoteId)
