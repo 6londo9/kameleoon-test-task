@@ -2,3 +2,4 @@ build/
 .gradle/
 .idea
 .jpb
+.DS_Store
