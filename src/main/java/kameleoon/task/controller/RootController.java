@@ -37,7 +37,7 @@ public final class RootController {
     @Autowired
     private VoteService voteService;
 
-    @Operation(summary = "Show user to the /v1.0/top page")
+    @Operation(summary = "Redirect user to the /v1.0/top page")
     @ApiResponse(responseCode = "303", description = "Redirect user to the /v1.0/top page")
     @GetMapping("/")
     public ResponseEntity<Void> homePage(HttpServletResponse response) {

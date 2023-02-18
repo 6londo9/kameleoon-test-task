@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -132,6 +135,30 @@ public final class QuoteController {
         quote.setDislikeCount(quoteService.getDislikesCount(quoteId));
         quoteService.save(quote);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Update quote content")
+    @ApiResponse(responseCode = "303", description = "The content successfully updated")
+    @PatchMapping("/{id}")
+    public Quote updateQuote(
+            @Parameter(description = "Id of quote to be updated")
+            @PathVariable("id") String id,
+            @Parameter(description = "New quote data")
+            @RequestBody Quote quote
+    ) {
+        Long quoteId = Long.parseLong(id);
+        return quoteService.updateQuote(quoteId, quote);
+    }
+
+    @Operation(summary = "Delete quote")
+    @ApiResponse(responseCode = "303", description = "The quote successfully deleted")
+    @DeleteMapping("/{id}")
+    public void deleteUser(
+            @Parameter(description = "Id of quote to be deleted")
+            @PathVariable("id") String id
+    ) {
+        Long quoteId = Long.parseLong(id);
+        quoteService.deleteQuote(quoteId);
     }
 
 }

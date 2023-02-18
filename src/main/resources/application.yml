@@ -12,6 +12,7 @@ spring:
       url: jdbc:h2:~/kameleoon
       username: sa
       password:
+      driver-class-name: org.h2.Driver
     production:
       username: ${MYSQLUSER}
       password: ${MYSQLPASSWORD}
@@ -33,4 +34,4 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /swagger
+    enabled: true

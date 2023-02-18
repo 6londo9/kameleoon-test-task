@@ -69,4 +69,15 @@ public final class QuoteService {
     public Long getDislikesCount(Long quoteId) {
         return quoteRepository.countDislikesByQuoteId(quoteId);
     }
+
+    public void deleteQuote(Long quoteId) {
+        quoteRepository.deleteById(quoteId);
+    }
+
+    public Quote updateQuote(Long quoteId, Quote quote) {
+        Quote updatedQuote = quoteRepository.findById(quoteId)
+                .orElseThrow(() -> new QuoteNotFoundException("Quote not found"));
+        updatedQuote.setContent(quote.getContent());
+        return quoteRepository.save(updatedQuote);
+    }
 }

@@ -5,7 +5,6 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'com.adarshr.test-logger' version '3.0.0'
 	id 'com.github.ben-manes.versions' version '0.39.0'
-	id 'org.springdoc.openapi-gradle-plugin' version '1.6.0'
 	id 'checkstyle'
 	id 'jacoco'
 }
@@ -25,40 +24,48 @@ repositories {
 }
 
 dependencies {
+	// spring
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.webjars:bootstrap:5.1.1'
-	implementation 'org.liquibase:liquibase-core'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2:1.4.200'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.3'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
+	// databases
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'jakarta.servlet:jakarta.servlet-api:4.0.4'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2:1.4.200'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// frontend
+	implementation 'org.webjars:bootstrap:5.1.1'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
+
+	// documentation
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.2'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// lombok
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// tests
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
 	testImplementation 'org.assertj:assertj-core:3.21.0'
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-openApi {
-	apiDocsUrl.set("http://localhost:5000/v3/api-docs")
 }
 
 testlogger {
@@ -67,4 +74,10 @@ testlogger {
 
 wrapper {
 	gradleVersion = '7.6'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.0'
+	}
 }
