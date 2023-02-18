@@ -13,3 +13,16 @@ The design is simple:
 
 - User authorize/register.
 - Then he can post quotes, like/dislike other quotes
+
+---
+#### The documentation is available at:
+
+If you are cloning this repo:
+```
+http://localhost:5000/swagger-ui.html
+```
+
+If you are using docker image:
+```
+http://localhost:8080/swagger-ui.html
+```
