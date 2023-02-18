@@ -28,7 +28,7 @@
           <a class="nav-link" th:href="@{'/v1.0/users/' + ${user.id}}">Profile</a>
         </li>
         <li th:unless="${user}" class="nav-item">
-          <a class="nav-link" href="/v1.0/auth/login">Profile</a>
+          <a class="nav-link" href="/v1.0/auth/register">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-item nav-link" href="/v1.0/top">Top-10</a>
