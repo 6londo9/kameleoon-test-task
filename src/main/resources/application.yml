@@ -13,9 +13,9 @@ spring:
       username: sa
       password:
     production:
-      username: ${DATABASE_USERNAME}
-      password: ${DATABASE_PASSWORD}
-      url: ${DATABASE_URL}
+      username: ${MYSQLUSER}
+      password: ${MYSQLPASSWORD}
+      url: ${MYSQL_URL}
   jpa:
     show-sql: true
     hibernate:
